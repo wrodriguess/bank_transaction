@@ -28,10 +28,11 @@ class TransactionController extends AbstractController
             $data = json_decode($request->getContent(), true);
             $data['value'] = (float)$data['value'];
 
-            v::key('value', v::floatType())
+            v::key('value', v::floatType()->notEmpty())
                 ->key('payer_id', v::intType())
                 ->key('payee_id', v::intType())
                 ->assert($data);
+
             $transfer = new TransferDTO($data['payer_id'], $data['payee_id'], $data['value']);
             $this->transfer->execute($transfer);
         } catch (DomainException $e) {

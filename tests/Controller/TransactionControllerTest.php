@@ -41,15 +41,15 @@ class TransactionControllerTest extends TestCase
                 '{"value":50,"payer_id":1,"payee_id":2}',
                 201
             ],
-//            'value equals null' => [
-//                [
-//                    "value" => null,
-//                    "payer_id" => 1,
-//                    "payee_id" => 2
-//                ],
-//                '{"status":"error","type":"ValidationError","message":"Houve um ou mais erros ao validar o corpo da requisi\u00e7\u00e3o.","errors":["value must be of the type float"]}',
-//                422
-//            ],
+            'value equals null' => [
+                [
+                    "value" => "",
+                    "payer_id" => 1,
+                    "payee_id" => 2
+                ],
+                '{"status":"error","type":"ValidationError","message":"Houve um ou mais erros ao validar o corpo da requisi\u00e7\u00e3o.","errors":["value must not be empty"]}',
+                422
+            ],
             'payer_id equals null' => [
                 array_merge($this->validPayload(), ["payer_id" => null]),
                 '{"status":"error","type":"ValidationError","message":"Houve um ou mais erros ao validar o corpo da requisi\u00e7\u00e3o.","errors":["payer_id must be of the type integer"]}',

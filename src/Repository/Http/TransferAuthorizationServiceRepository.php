@@ -2,9 +2,11 @@
 
 namespace App\Repository\Http;
 
+use App\Exception\TransferAuthorizationException;
+use App\Repository\Conctracts\TransferAuthorizationServiceRepositoryInterface;
 use Exception;
 
-class TransferAuthorizationService
+class TransferAuthorizationServiceRepository implements TransferAuthorizationServiceRepositoryInterface
 {
     public function __construct(
         private HttpClient $httpClient
@@ -16,7 +18,7 @@ class TransferAuthorizationService
             $response = $this->httpClient->request('GET', 'https://util.devi.tools/api/v2/authorize');
             return $response['data']['authorization'];
         } catch (Exception $e) {
-            throw new Exception('Transação não autorizada');
+            throw TransferAuthorizationException::forUnauthorizedTransfer();
         }
     }
 

@@ -38,6 +38,7 @@ class Transfer
     )
     {
         if($payer === $payee) {
+            // TODO: Adicionar exeção de dominio
             throw new Exception('Pagador e recebedor são a mesma pessoa');
         }
 

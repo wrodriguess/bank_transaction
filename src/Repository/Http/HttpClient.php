@@ -2,6 +2,7 @@
 
 namespace App\Repository\Http;
 
+use App\Exception\HttpClientException;
 use Exception;
 use GuzzleHttp\Client;
 
@@ -17,7 +18,7 @@ class HttpClient
             $response = $this->client->request($method, $url);
             return json_decode($response->getBody()->getContents(), true);
         } catch (Exception $e) {
-            throw new Exception('Erro ao realizar requisição');
+            throw HttpClientException::httpRequestError();
         }
     }
 }

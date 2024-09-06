@@ -60,6 +60,7 @@ class Wallet
     public function withdraw(float $amount): void
     {
         if($amount > $this->balance) {
+            // TODO - adicionar exeção de dominio
             throw new Exception('Saldo insuficiente para realizar a transferencia');
         }
 

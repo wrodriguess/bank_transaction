@@ -3,6 +3,7 @@
 namespace App\Repository\MySql;
 
 use App\Entity\User;
+use App\Exception\UserException;
 use App\Repository\Conctracts\UserRepositoryInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -28,7 +29,7 @@ class UserRepository extends ServiceEntityRepository implements UserRepositoryIn
         $user = $this->find( $id);
 
         if (!$user) {
-            throw new Exception('Usuário não encontrado');
+            throw UserException::forUserNotFound();
         }
 
         return $user;

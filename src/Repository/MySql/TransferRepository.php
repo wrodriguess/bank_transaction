@@ -3,9 +3,11 @@
 namespace App\Repository\MySql;
 
 use App\Entity\Transfer;
+use App\Exception\TransferException;
 use App\Repository\Conctracts\TransferRepositoryInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -26,9 +28,13 @@ class TransferRepository extends ServiceEntityRepository implements TransferRepo
 
     public function create(Transfer $transfer): Transfer
     {
-        $this->em->persist($transfer);
-        $this->em->flush();
-        return $transfer;
+        try {
+            $this->em->persist($transfer);
+            $this->em->flush();
+            return $transfer;
+        } catch (Exception $e) {
+            throw TransferException::forCannotSaveEntity();
+        }
     }
 
     //    /**

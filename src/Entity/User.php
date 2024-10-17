@@ -179,7 +179,6 @@ class User
     public function removeTransfer(Transfer $transfer): static
     {
         if ($this->transfers->removeElement($transfer)) {
-            // set the owning side to null (unless already changed)
             if ($transfer->getPayer() === $this) {
                 $transfer->setPayer(null);
             }

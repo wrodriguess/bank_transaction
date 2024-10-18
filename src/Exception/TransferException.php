@@ -22,6 +22,15 @@ class TransferException extends DomainException
 
     public static function forCannotSaveEntity(): self
     {
-        return new static('CannotSaveTransfer', 'Não foi possivel salvar a transferencia na base de dados', 400);
+        return new static(
+            'CannotSaveTransfer',
+            'Não foi possivel salvar a transferencia na base de dados',
+            400
+        );
+    }
+
+    public static function forInvalidPayerPayee(): self
+    {
+        return new static('InvalidPayerPayee', 'Pagador e/ou recebedor inválido(s).', 400);
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Repository\MySql;
 
 use App\Entity\Wallet;
+use App\Exception\WalletException;
 use App\Repository\Conctracts\WalletRepositoryInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -22,28 +23,14 @@ class WalletRepository extends ServiceEntityRepository implements WalletReposito
         parent::__construct($registry, Wallet::class);
     }
 
-    //    /**
-    //     * @return Wallet[] Returns an array of Wallet objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('w')
-    //            ->andWhere('w.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('w.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
+    public function findByUserId(string $userId): Wallet
+    {
+        $wallet = $this->findOneBy(['userId' => $userId]);
 
-    //    public function findOneBySomeField($value): ?Wallet
-    //    {
-    //        return $this->createQueryBuilder('w')
-    //            ->andWhere('w.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+        if (!$wallet) {
+            throw WalletException::forWalletNotFound();
+        }
+
+        return $wallet;
+    }
 }

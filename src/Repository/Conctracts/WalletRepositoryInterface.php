@@ -6,4 +6,5 @@ use App\Entity\Wallet;
 
 interface WalletRepositoryInterface
 {
+    public function findByUserId(string $userId): Wallet;
 }

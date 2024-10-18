@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Exception\WalletException;
 use App\Repository\MySql\WalletRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -60,8 +61,7 @@ class Wallet
     public function withdraw(float $amount): void
     {
         if($amount > $this->balance) {
-            // TODO - adicionar exeção de dominio
-            throw new Exception('Saldo insuficiente para realizar a transferencia');
+            throw WalletException::forInsufficientBalance();
         }
 
         $this->setBalance($this->balance - $amount);

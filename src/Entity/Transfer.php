@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Exception\TransferException;
 use App\Repository\MySql\TransferRepository;
 use DateTimeImmutable;
 use Doctrine\DBAL\Types\Types;
@@ -38,17 +39,13 @@ class Transfer
     )
     {
         if($payer === $payee) {
-            // TODO: Adicionar exeção de dominio
-            throw new Exception('Pagador e recebedor são a mesma pessoa');
+            throw TransferException::forInvalidPayerPayee();
         }
 
         $this->payer = $payer;
         $this->payee = $payee;
         $this->value = $value;
         $this->createdAt = $createdAt;
-
-        $this->payer->getWallet()->withdraw($this->value);
-        $this->payee->getWallet()->deposit($this->value);
     }
 
     public function getId(): int

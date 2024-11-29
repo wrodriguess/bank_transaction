@@ -58,6 +58,15 @@ services:
     command: ["--data", "/data/mocks.json", "--port", "3030"]
     networks:
       - rede1
+
+  redis:
+    image: redis:7.0
+    container_name: redis
+    ports:
+      - "6370:6370"
+    command: [ "redis-server", "--appendonly", "yes" ]
+    volumes:
+      - ./:/data
 ###< doctrine/doctrine-bundle ###
 
 volumes:

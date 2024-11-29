@@ -5,6 +5,11 @@ RUN apk add --update --no-cache libintl icu icu-dev postgresql-dev pcre-dev $PHP
     && cp /usr/local/etc/php/php.ini-development /usr/local/etc/php/php.ini \
     && sed -i 's/variables_order = "GPCS"/variables_order = "EGPCS"/g' /usr/local/etc/php/php.ini-*
 
+RUN pecl install redis && docker-php-ext-enable redis
+
+RUN curl -s https://getcomposer.org/installer | php
+RUN alias composer='php composer.phar'
+
 WORKDIR /code
 COPY . .
 

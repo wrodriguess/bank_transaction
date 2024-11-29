@@ -3,15 +3,16 @@
 namespace App\Service;
 
 use App\Exception\TransferAuthorizationException;
+use App\Message\TransferNotificationMessage;
 use App\Repository\MySql\WalletRepository;
 use Exception;
 use App\DTO\TransferDTO;
 use App\Entity\Transfer as TransferEntity;
 use App\Repository\Conctracts\TransferRepositoryInterface;
 use App\Repository\Conctracts\UserRepositoryInterface;
-use App\Repository\Conctracts\NotificationServiceRepositoryInterface;
 use App\Repository\Conctracts\TransferAuthorizationServiceRepositoryInterface;
 use DateTimeImmutable;
+use Symfony\Component\Messenger\MessageBusInterface;
 
 class Transfer
 {
@@ -20,7 +21,7 @@ class Transfer
         private readonly WalletRepository $walletRepository,
         private readonly TransferRepositoryInterface $transferRepository,
         private readonly TransferAuthorizationServiceRepositoryInterface $transferAuthorizationService,
-        private readonly NotificationServiceRepositoryInterface $notificationService
+        private readonly MessageBusInterface $bus
     ){}
 
     /**
@@ -50,7 +51,7 @@ class Transfer
 
         $this->transferRepository->create($transfer);
 
-        // TODO: Colocar em uma fila de disparos assincrono
-//        $this->notificationService->sendNotification();
+        $message = new TransferNotificationMessage('Notifica recebedor.');
+        $this->bus->dispatch($message);
     }
 }

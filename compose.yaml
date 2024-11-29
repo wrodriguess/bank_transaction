@@ -2,8 +2,35 @@ version: '3'
 
 services:
 ###> doctrine/doctrine-bundle ###
+  app:
+    build:
+      context: .
+      dockerfile: docker/php/Dockerfile
+    container_name: bank
+    working_dir: /code
+    volumes:
+      - ./:/code:delegated,rw
+    networks:
+      - rede1
+
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    depends_on:
+      - app
+    links:
+      - app
+    ports:
+      - "8181:80"
+    volumes:
+      - ./docker/nginx/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./:/code
+    networks:
+      - rede1
+
   database:
     image: postgres:${POSTGRES_VERSION:-16}-alpine
+    container_name: database
     environment:
       POSTGRES_DB: ${POSTGRES_DB:-app}
       # You should definitely change the password in production
@@ -16,11 +43,28 @@ services:
       start_period: 60s
     volumes:
       - database_data:/var/lib/postgresql/data:rw
+    networks:
+      - rede1
       # You may use a bind-mounted host directory instead, so that it is harder to accidentally remove the volume and lose all your data!
       # - ./docker/db/data:/var/lib/postgresql/data:rw
+
+  mockoon:
+    image: mockoon/cli:latest
+    container_name: mockoon
+    ports:
+      - "3030:3030"
+    volumes:
+      - ./mockoon/mocks.json:/data/mocks.json:readonly
+    command: ["--data", "/data/mocks.json", "--port", "3030"]
+    networks:
+      - rede1
 ###< doctrine/doctrine-bundle ###
 
 volumes:
 ###> doctrine/doctrine-bundle ###
   database_data:
 ###< doctrine/doctrine-bundle ###
+
+networks:
+  rede1:
+    driver: bridge

@@ -1,0 +1,28 @@
+{
+  "uuid": "",
+  "lastMigration": 29,
+  "name": "Mock data",
+  "endpointPrefix": "",
+  "latency": 0,
+  "port": 3001,
+  "routes": [
+    {
+      "method": "get",
+      "endpoint": "users/:id",
+      "responses": [
+        {
+          "body": "{\r\n    \"id\": {{urlParam 'id'}},\r\n    \"name\": \"William\",\r\n    \"type\": true,\r\n    \"email\": \"william@gmail.com\",\r\n    \"password\": \"password\",\r\n    \"document\": \"12345\",\r\n    \"documentType\": true,\r\n    \"phoneNumber\": 123456789,\r\n    \"wallet\": {\r\n        \"id\": 1,\r\n        \"userId\": 1,\r\n        \"balance\": 3505.0,\r\n        \"user\": {\r\n            \"id\": 1\r\n        }\r\n    },\r\n    \"transfers\": {\r\n        \"collection\": [],\r\n        \"initialized\": false,\r\n        \"snapshot\": [],\r\n        \"owner\": {\r\n            \"id\": 1\r\n        },\r\n        \"association\": {\r\n            \"type\": \"OneToMany\",\r\n            \"backRefFieldName\": \"payer\"\r\n        },\r\n        \"isDirty\": false\r\n    }\r\n},{\n    \"id\": {{urlParam 'id'}},\n    \"name\": \"William\",\n    \"type\": true,\n    \"email\": \"william@gmail.com\",\n    \"password\": \"password\",\n    \"document\": \"12345\",\n    \"documentType\": true,\n    \"phoneNumber\": 123456789,\n    \"wallet\": {\n        \"id\": 1,\n        \"userId\": 1,\n        \"balance\": 3505.0,\n        \"user\": {\n            \"id\": 1\n        }\n    },\n    \"transfers\": {\n        \"collection\": [],\n        \"initialized\": false,\n        \"snapshot\": [],\n        \"owner\": {\n            \"id\": 1\n        },\n        \"association\": {\n            \"type\": \"OneToMany\",\n            \"backRefFieldName\": \"payer\"\n        },\n        \"isDirty\": false\n    }\n}",
+          "statusCode": 200,
+          "headers": [{ "key": "Content-Type", "value": "application/json" }]
+        }
+      ]
+    }
+  ],
+  "proxyMode": false,
+  "proxyHost": "",
+  "cors": true,
+  "headers": [{ "key": "Content-Type", "value": "application/json" }],
+  "proxyReqHeaders": [{ "key": "", "value": "" }],
+  "proxyResHeaders": [{ "key": "", "value": "" }],
+  "enabled": true
+}
